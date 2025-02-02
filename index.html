@@ -6,9 +6,9 @@
     <title>Calcolo Crediti Fantacalcio</title>
     <style>
         :root {
-            --primary-color: #4CAF50;
+            --primary-color: #D60000;
             --secondary-color: #2c3e50;
-            --accent-color: #45a049;
+            --accent-color: #B00000;
             --bg-color: #f0f2f5;
             --card-bg: rgba(255, 255, 255, 0.95);
         }
@@ -21,15 +21,32 @@
             padding: 20px;
             min-height: 100vh;
             position: relative;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30,40 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0' fill='none' stroke='%23000' stroke-width='1' opacity='0.1'/%3E%3C/svg%3E");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50,20 a30,30 0 1,0 0,60 a30,30 0 1,0 0,-60 M50,35 a15,15 0 1,0 0,30 a15,15 0 1,0 0,-30' fill='%23D60000' fill-opacity='0.1'/%3E%3C/svg%3E");
         }
 
-        .container {
-            max-width: 800px;
+        .page-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            max-width: 1200px;
             margin: 20px auto;
+        }
+
+        .main-content {
             background: var(--card-bg);
             padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .side-content {
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+            background: var(--card-bg);
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
@@ -85,26 +102,9 @@
             border: 2px solid #e9ecef;
         }
 
-        .history-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            text-align: left;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .history-item:hover {
-            background: #e9ecef;
-        }
-
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-top: 20px;
         }
@@ -125,157 +125,6 @@
         .stat-label {
             font-size: 14px;
             color: #666;
-        }
-
-        .history-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .checkbox-group input {
-            width: auto;
-            margin-left: 10px;
-        }
-    .history-actions {
-            display: none;
-            margin-top: 8px;
-            gap: 8px;
-        }
-
-        .history-item:hover .history-actions {
-            display: flex;
-        }
-
-        .btn-action {
-            padding: 4px 8px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
-        .btn-edit {
-            background: #ffd700;
-            color: #000;
-        }
-
-        .btn-delete {
-            background: #ff4444;
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background: #ffc700;
-        }
-
-        .btn-delete:hover {
-            background: #cc0000;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #333;
-            color: white;
-            border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
-
-        .input-group.error input {
-            border-color: #ff4444;
-        }
-
-        .error-message {
-            color: #ff4444;
-            font-size: 12px;
-            margin-top: 4px;
-            display: none;
-        }
-
-        .input-group.error .error-message {
-            display: block;
-        }
-
-        .clear-btn {
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 4px 8px;
-            margin-left: auto;
-        }
-
-        .clear-btn:hover {
-            color: #ff4444;
-        }
-
-        /* Migliorie estetiche */
-        .container {
-            position: relative;
-        }
-
-        .result {
-            transition: all 0.3s;
-        }
-
-        .result.highlight {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
-        }
-
-        .history-item {
-            opacity: 0.9;
-            transition: all 0.2s;
-        }
-
-        .history-item:hover {
-            opacity: 1;
-            transform: translateX(5px);
-        }
-.page-layout {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-
-        .main-content {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .side-content {
-            position: sticky;
-            top: 20px;
-            height: calc(100vh - 40px);
-            overflow-y: auto;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
         .history-item {
@@ -307,6 +156,81 @@
             color: #666;
             margin-top: 4px;
         }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .input-group.error .error-message {
+            display: block;
+        }
+
+        .input-group.error input {
+            border-color: #ff4444;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin-left: auto;
+        }
+
+        .clear-btn:hover {
+            color: #ff4444;
+        }
+
+        .history-actions {
+            display: none;
+            margin-top: 8px;
+            gap: 8px;
+        }
+
+        .history-item:hover .history-actions {
+            display: flex;
+        }
+
+        .btn-action {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -316,26 +240,26 @@
 
             <div class="input-group">
                 <label for="nomeGiocatore">Nome Giocatore:</label>
-                <input type="text" id="nomeGiocatore" placeholder="Inserisci il nome del giocatore">
+                <input type="text" id="nomeGiocatore" placeholder="Inserisci il nome del giocatore" required>
                 <div class="error-message">Inserisci il nome del giocatore</div>
             </div>
 
             <div class="input-group">
                 <label for="creditiSpesi">Crediti Spesi:</label>
-                <input type="number" id="creditiSpesi" placeholder="Inserisci i crediti spesi" min="1">
-                <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+                <input type="number" id="creditiSpesi" placeholder="Inserisci i crediti spesi" min="1" step="1" required>
+                <div class="error-message">Inserisci un numero intero positivo</div>
             </div>
 
             <div class="input-group">
                 <label for="quotazioneAcquisto">Quotazione Acquisto:</label>
-                <input type="number" id="quotazioneAcquisto" placeholder="Inserisci la quotazione di acquisto" min="1">
-                <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+                <input type="number" id="quotazioneAcquisto" placeholder="Inserisci la quotazione di acquisto" min="1" step="1" required>
+                <div class="error-message">Inserisci un numero intero positivo</div>
             </div>
 
             <div class="input-group">
                 <label for="quotazioneAttuale">Quotazione Attuale:</label>
-                <input type="number" id="quotazioneAttuale" placeholder="Inserisci la quotazione attuale" min="1">
-                <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+                <input type="number" id="quotazioneAttuale" placeholder="Inserisci la quotazione attuale" min="1" step="1" required>
+                <div class="error-message">Inserisci un numero intero positivo</div>
             </div>
 
             <div class="checkbox-group">
@@ -352,16 +276,12 @@
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-value" id="mediaCrediti">0</div>
-                    <div class="stat-label">Media Crediti</div>
+                    <div class="stat-value" id="giocatoriSvincolati">0</div>
+                    <div class="stat-label">Giocatori Svincolati</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="maxRecupero">0</div>
-                    <div class="stat-label">Max Recupero</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="calcoliTotali">0</div>
-                    <div class="stat-label">Calcoli Totali</div>
+                    <div class="stat-value" id="creditiTotali">0</div>
+                    <div class="stat-label">Crediti Totali Guadagnati</div>
                 </div>
             </div>
         </div>
@@ -376,6 +296,7 @@
     </div>
 
     <div id="toast" class="toast"></div>
+
     <script>
         let calculationHistory = [];
         let editingIndex = -1;
@@ -402,14 +323,15 @@
                 const group = input.parentElement;
                 group.classList.remove('error');
 
-                if (key === 'nomeGiocatore') {
-                    if (!value) {
-                        group.classList.add('error');
-                        isValid = false;
-                    }
-                } else {
-                    const num = parseFloat(value);
-                    if (isNaN(num) || num <= 0) {
+                if (!value) {
+                    group.classList.add('error');
+                    isValid = false;
+                    continue;
+                }
+
+                if (key !== 'nomeGiocatore') {
+                    const num = parseInt(value);
+                    if (isNaN(num) || num <= 0 || num !== parseFloat(value)) {
                         group.classList.add('error');
                         isValid = false;
                     }
@@ -426,7 +348,6 @@
             document.getElementById('quotazioneAttuale').value = '';
             document.getElementById('estero').checked = false;
             
-            // Rimuovi eventuali errori
             document.querySelectorAll('.input-group').forEach(group => {
                 group.classList.remove('error');
             });
@@ -434,14 +355,14 @@
 
         function calcolaCrediti() {
             if (!validateInputs()) {
-                showToast('Controlla i campi evidenziati');
+                showToast('Tutti i campi devono essere compilati con valori validi');
                 return;
             }
 
             const nomeGiocatore = document.getElementById('nomeGiocatore').value;
-            const creditiSpesi = parseFloat(document.getElementById('creditiSpesi').value);
-            const quotazioneAcquisto = parseFloat(document.getElementById('quotazioneAcquisto').value);
-            const quotazioneAttuale = parseFloat(document.getElementById('quotazioneAttuale').value);
+            const creditiSpesi = parseInt(document.getElementById('creditiSpesi').value);
+            const quotazioneAcquisto = parseInt(document.getElementById('quotazioneAcquisto').value);
+            const quotazioneAttuale = parseInt(document.getElementById('quotazioneAttuale').value);
             const estero = document.getElementById('estero').checked;
 
             let recupero;
@@ -479,12 +400,7 @@
                 showToast('Calcolo aggiunto alla cronologia');
             }
 
-            // Aggiorna UI
             document.getElementById('risultato').textContent = risultatoFinale;
-            const resultDiv = document.querySelector('.result');
-            resultDiv.classList.add('highlight');
-            setTimeout(() => resultDiv.classList.remove('highlight'), 1000);
-
             updateHistoryDisplay();
             updateStats();
             clearInputs();
@@ -511,67 +427,4 @@
         }
 
         function clearAllHistory() {
-            if (confirm('Sei sicuro di voler eliminare tutta la cronologia?')) {
-                calculationHistory = [];
-                updateHistoryDisplay();
-                updateStats();
-                showToast('Cronologia cancellata');
-            }
-        }
-
-                function updateHistoryDisplay() {
-            const historyDiv = document.getElementById('history');
-            historyDiv.innerHTML = '';
-
-            calculationHistory.forEach((calc, index) => {
-                const div = document.createElement('div');
-                div.className = 'history-item';
-                div.innerHTML = `
-                    <div>
-                        <strong>${calc.nome}</strong>
-                        <div class="history-details">
-                            Spesi: ${calc.creditiSpesi} cr.
-                            <br>
-                            Quotazione: ${calc.quotazioneAttuale} (da ${calc.quotazioneAcquisto})
-                            ${calc.estero ? '🌍' : ''}
-                        </div>
-                        <div class="history-actions">
-                            <button class="btn-action btn-edit" onclick="event.stopPropagation(); editCalculation(${index})">✏️ Modifica</button>
-                            <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteCalculation(${index})">🗑️ Elimina</button>
-                        </div>
-                    </div>
-                    <div class="recupero-info">
-                        +${calc.recupero} cr.
-                    </div>
-                `;
-                historyDiv.appendChild(div);
-            });
-        }
-
-        function updateStats() {
-            const mediaEl = document.getElementById('mediaCrediti');
-            const maxEl = document.getElementById('maxRecupero');
-            const totaliEl = document.getElementById('calcoliTotali');
-
-            if (calculationHistory.length === 0) {
-                mediaEl.textContent = '0';
-                maxEl.textContent = '0';
-                totaliEl.textContent = '0';
-                return;
-            }
-
-            const crediti = calculationHistory.map(calc => calc.recupero);
-            const media = crediti.reduce((a, b) => a + b) / crediti.length;
-            const max = Math.max(...crediti);
-
-            mediaEl.textContent = Math.round(media);
-            maxEl.textContent = max;
-            totaliEl.textContent = calculationHistory.length;
-        }
-
-        // Inizializzazione
-        updateHistoryDisplay();
-        updateStats();
-    </script>
-</body>
-</html>
+            if (confirm('Sei sicuro di voler eliminare tutta
