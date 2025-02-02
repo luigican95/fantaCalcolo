@@ -5,155 +5,388 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolo Crediti Fantacalcio</title>
     <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2c3e50;
+            --accent-color: #45a049;
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            background-color: #f0f2f5;
+            background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
             position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30,40 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0' fill='none' stroke='%23000' stroke-width='1' opacity='0.1'/%3E%3C/svg%3E");
         }
-        .background-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.05;
-            z-index: -1;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='%23000000'%3E%3Ccircle cx='50' cy='50' r='20'/%3E%3Cpath d='M50 35 L50 65 M35 50 L65 50'/%3E%3Crect x='100' y='30' width='60' height='40' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='150' cy='150' r='20'/%3E%3Cpath d='M150 135 L150 165 M135 150 L165 150'/%3E%3Crect x='30' y='100' width='60' height='40' fill='none' stroke='black' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: repeat;
-        }
+
         .container {
-            max-width: 500px;
+            max-width: 800px;
             margin: 20px auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
-        .form-group {
+
+        .input-group {
             margin-bottom: 20px;
-            position: relative;
+            text-align: left;
         }
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-            background: white;
-        }
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
+
         label {
             display: block;
-            text-align: left;
             margin-bottom: 8px;
-            color: #333;
+            color: var(--secondary-color);
             font-weight: 500;
         }
-        .checkbox-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin: 20px 0;
-            padding: 10px 0;
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 4px;
         }
-        .checkbox-container label {
-            margin: 0 10px 0 0;
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
-        .checkbox-container input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
+
         button {
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
             color: white;
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
             width: 100%;
-            transition: background-color 0.3s ease;
-            margin: 20px 0;
+            margin: 10px 0;
         }
+
         button:hover {
-            background-color: #45a049;
+            background-color: var(--accent-color);
         }
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 28px;
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
         }
-        h3 {
-            color: #2c3e50;
+
+        .history-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:hover {
+            background: #e9ecef;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
-        #risultato {
-            font-weight: bold;
-            color: #4CAF50;
-            font-size: 24px;
-        }
-        .result-container {
-            margin-top: 20px;
+
+        .stat-card {
+            background: white;
             padding: 15px;
             border-radius: 8px;
-            background-color: #f8f9fa;
-            border: 2px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-left: 10px;
+        }
+    .history-actions {
+            display: none;
+            margin-top: 8px;
+            gap: 8px;
+        }
+
+        .history-item:hover .history-actions {
+            display: flex;
+        }
+
+        .btn-action {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #ffc700;
+        }
+
+        .btn-delete:hover {
+            background: #cc0000;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .input-group.error input {
+            border-color: #ff4444;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .input-group.error .error-message {
+            display: block;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin-left: auto;
+        }
+
+        .clear-btn:hover {
+            color: #ff4444;
+        }
+
+        /* Migliorie estetiche */
+        .container {
+            position: relative;
+        }
+
+        .result {
+            transition: all 0.3s;
+        }
+
+        .result.highlight {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .history-item {
+            opacity: 0.9;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            opacity: 1;
+            transform: translateX(5px);
         }
     </style>
 </head>
 <body>
-    <div class="background-pattern"></div>
     <div class="container">
         <h2>⚽ Calcolo Crediti Fantacalcio</h2>
-        
-        <div class="form-group">
+
+        <div class="input-group">
+            <label for="nomeGiocatore">Nome Giocatore:</label>
+            <input type="text" id="nomeGiocatore" placeholder="Inserisci il nome del giocatore">
+            <div class="error-message">Inserisci il nome del giocatore</div>
+        </div>
+
+        <div class="input-group">
             <label for="creditiSpesi">Crediti Spesi:</label>
-            <input type="number" id="creditiSpesi" placeholder="Inserisci crediti spesi">
+            <input type="number" id="creditiSpesi" placeholder="Inserisci i crediti spesi" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
         </div>
-        
-        <div class="form-group">
-            <label for="quotazioneAcquisto">Quotazione di Acquisto:</label>
-            <input type="number" id="quotazioneAcquisto" placeholder="Inserisci quotazione di acquisto">
+
+        <div class="input-group">
+            <label for="quotazioneAcquisto">Quotazione Acquisto:</label>
+            <input type="number" id="quotazioneAcquisto" placeholder="Inserisci la quotazione di acquisto" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
         </div>
-        
-        <div class="form-group">
+
+        <div class="input-group">
             <label for="quotazioneAttuale">Quotazione Attuale:</label>
-            <input type="number" id="quotazioneAttuale" placeholder="Inserisci quotazione attuale">
+            <input type="number" id="quotazioneAttuale" placeholder="Inserisci la quotazione attuale" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
         </div>
-        
-        <div class="checkbox-container">
-            <label for="estero">Il giocatore è andato all'estero</label>
+
+        <div class="checkbox-group">
+            <label for="estero">Giocatore andato all'estero</label>
             <input type="checkbox" id="estero">
         </div>
-        
+
         <button onclick="calcolaCrediti()">Calcola Crediti</button>
-        
-        <div class="result-container">
-            <h3>Crediti Recuperati: <span id="risultato">-</span></h3>
+
+        <div class="result">
+            <h3>Risultato</h3>
+            <p>Crediti Recuperati: <span id="risultato">-</span></p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="mediaCrediti">0</div>
+                <div class="stat-label">Media Crediti</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="maxRecupero">0</div>
+                <div class="stat-label">Max Recupero</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="calcoliTotali">0</div>
+                <div class="stat-label">Calcoli Totali</div>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">Cronologia Calcoli</h3>
+                <button class="clear-btn" onclick="clearAllHistory()">Pulisci tutto</button>
+            </div>
+            <div id="history"></div>
         </div>
     </div>
 
-    <script>
-        function calcolaCrediti() {
-            const creditiSpesi = parseFloat(document.getElementById("creditiSpesi").value);
-            const quotazioneAcquisto = parseFloat(document.getElementById("quotazioneAcquisto").value);
-            const quotazioneAttuale = parseFloat(document.getElementById("quotazioneAttuale").value);
-            const estero = document.getElementById("estero").checked;
+    <div id="toast" class="toast"></div>
 
-            if (isNaN(creditiSpesi) || isNaN(quotazioneAcquisto) || isNaN(quotazioneAttuale) || creditiSpesi <= 0 || quotazioneAcquisto <= 0) {
-                alert("Inserisci valori validi");
+    <script>
+        let calculationHistory = [];
+        let editingIndex = -1;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function validateInputs() {
+            const inputs = {
+                nomeGiocatore: document.getElementById('nomeGiocatore'),
+                creditiSpesi: document.getElementById('creditiSpesi'),
+                quotazioneAcquisto: document.getElementById('quotazioneAcquisto'),
+                quotazioneAttuale: document.getElementById('quotazioneAttuale')
+            };
+
+            let isValid = true;
+
+            for (const [key, input] of Object.entries(inputs)) {
+                const value = input.value.trim();
+                const group = input.parentElement;
+                group.classList.remove('error');
+
+                if (key === 'nomeGiocatore') {
+                    if (!value) {
+                        group.classList.add('error');
+                        isValid = false;
+                    }
+                } else {
+                    const num = parseFloat(value);
+                    if (isNaN(num) || num <= 0) {
+                        group.classList.add('error');
+                        isValid = false;
+                    }
+                }
+            }
+
+            return isValid;
+        }
+
+        function clearInputs() {
+            document.getElementById('nomeGiocatore').value = '';
+            document.getElementById('creditiSpesi').value = '';
+            document.getElementById('quotazioneAcquisto').value = '';
+            document.getElementById('quotazioneAttuale').value = '';
+            document.getElementById('estero').checked = false;
+            
+            // Rimuovi eventuali errori
+            document.querySelectorAll('.input-group').forEach(group => {
+                group.classList.remove('error');
+            });
+        }
+
+        function calcolaCrediti() {
+            if (!validateInputs()) {
+                showToast('Controlla i campi evidenziati');
                 return;
             }
+
+            const nomeGiocatore = document.getElementById('nomeGiocatore').value;
+            const creditiSpesi = parseFloat(document.getElementById('creditiSpesi').value);
+            const quotazioneAcquisto = parseFloat(document.getElementById('quotazioneAcquisto').value);
+            const quotazioneAttuale = parseFloat(document.getElementById('quotazioneAttuale').value);
+            const estero = document.getElementById('estero').checked;
 
             let recupero;
             if (estero) {
@@ -163,11 +396,124 @@
             } else if (quotazioneAttuale < quotazioneAcquisto * 0.9) {
                 recupero = creditiSpesi * 0.3;
             } else {
-                recupero = creditiSpesi * 0.5;
+                recupero = creditiSpesi * 0.3;
             }
 
-            document.getElementById("risultato").innerText = Math.ceil(recupero);
+            const risultatoFinale = Math.ceil(recupero);
+            
+            const calculation = {
+                timestamp: new Date(),
+                nome: nomeGiocatore,
+                creditiSpesi,
+                quotazioneAcquisto,
+                quotazioneAttuale,
+                estero,
+                recupero: risultatoFinale
+            };
+
+            if (editingIndex >= 0) {
+                calculationHistory[editingIndex] = calculation;
+                editingIndex = -1;
+                showToast('Calcolo aggiornato');
+            } else {
+                calculationHistory.unshift(calculation);
+                if (calculationHistory.length > 10) {
+                    calculationHistory.pop();
+                }
+                showToast('Calcolo aggiunto alla cronologia');
+            }
+
+            // Aggiorna UI
+            document.getElementById('risultato').textContent = risultatoFinale;
+            const resultDiv = document.querySelector('.result');
+            resultDiv.classList.add('highlight');
+            setTimeout(() => resultDiv.classList.remove('highlight'), 1000);
+
+            updateHistoryDisplay();
+            updateStats();
+            clearInputs();
         }
+
+        function editCalculation(index) {
+            const calc = calculationHistory[index];
+            document.getElementById('nomeGiocatore').value = calc.nome;
+            document.getElementById('creditiSpesi').value = calc.creditiSpesi;
+            document.getElementById('quotazioneAcquisto').value = calc.quotazioneAcquisto;
+            document.getElementById('quotazioneAttuale').value = calc.quotazioneAttuale;
+            document.getElementById('estero').checked = calc.estero;
+            editingIndex = index;
+            showToast('Modifica il calcolo e premi Calcola');
+        }
+
+        function deleteCalculation(index) {
+            if (confirm('Sei sicuro di voler eliminare questo calcolo?')) {
+                calculationHistory.splice(index, 1);
+                updateHistoryDisplay();
+                updateStats();
+                showToast('Calcolo eliminato');
+            }
+        }
+
+        function clearAllHistory() {
+            if (confirm('Sei sicuro di voler eliminare tutta la cronologia?')) {
+                calculationHistory = [];
+                updateHistoryDisplay();
+                updateStats();
+                showToast('Cronologia cancellata');
+            }
+        }
+
+        function updateHistoryDisplay() {
+            const historyDiv = document.getElementById('history');
+            historyDiv.innerHTML = '';
+
+            calculationHistory.forEach((calc, index) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div>
+                        <strong>${calc.nome}</strong>
+                        <div style="font-size: 0.9em; color: #666;">
+                            Quotazione: ${calc.quotazioneAttuale} (da ${calc.quotazioneAcquisto})
+                            ${calc.estero ? '🌍' : ''}
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn-action btn-edit" onclick="event.stopPropagation(); editCalculation(${index})">✏️ Modifica</button>
+                            <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteCalculation(${index})">🗑️ Elimina</button>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>${calc.recupero}</strong> crediti
+                    </div>
+                `;
+                historyDiv.appendChild(div);
+            });
+        }
+
+        function updateStats() {
+            const mediaEl = document.getElementById('mediaCrediti');
+            const maxEl = document.getElementById('maxRecupero');
+            const totaliEl = document.getElementById('calcoliTotali');
+
+            if (calculationHistory.length === 0) {
+                mediaEl.textContent = '0';
+                maxEl.textContent = '0';
+                totaliEl.textContent = '0';
+                return;
+            }
+
+            const crediti = calculationHistory.map(calc => calc.recupero);
+            const media = crediti.reduce((a, b) => a + b) / crediti.length;
+            const max = Math.max(...crediti);
+
+            mediaEl.textContent = Math.round(media);
+            maxEl.textContent = max;
+            totaliEl.textContent = calculationHistory.length;
+        }
+
+        // Inizializzazione
+        updateHistoryDisplay();
+        updateStats();
     </script>
 </body>
 </html>
