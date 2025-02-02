@@ -163,7 +163,7 @@
             } else if (quotazioneAttuale < quotazioneAcquisto * 0.9) {
                 recupero = creditiSpesi * 0.3;
             } else {
-                recupero = creditiSpesi * 0.3;
+                recupero = creditiSpesi * 0.5;
             }
 
             document.getElementById("risultato").innerText = Math.ceil(recupero);
