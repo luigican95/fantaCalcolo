@@ -16,14 +16,26 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
             position: relative;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%230090FF"/><circle cx="200" cy="200" r="150" fill="%230080FF" opacity="0.5"/></svg>');
-            background-size: cover;
+            background: linear-gradient(135deg, #0090FF 0%, #004a85 100%);
             color: #333;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30,5 L5,20 L5,40 L30,55 L55,40 L55,20 L30,5z' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3Ccircle cx='30' cy='30' r='8' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #0090FF 0%, #004a85 100%);
+            background-size: 60px 60px, 100% 100%;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
         }
 
         .page-layout {
@@ -51,6 +63,19 @@
         .input-group {
             margin-bottom: 20px;
             text-align: left;
+            position: relative;
+        }
+
+        .input-group::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translateY(-50%);
         }
 
         label {
@@ -67,9 +92,9 @@
             border-radius: 8px;
             font-size: 16px;
             margin-top: 4px;
+            box-sizing: border-box;
         }
 
-        /* Prevent 'e' input in number fields */
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -97,11 +122,24 @@
             transition: all 0.3s ease;
             width: 100%;
             margin: 10px 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        button:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-2px);
+        button:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        button:hover:after {
+            opacity: 1;
         }
 
         .stats-grid {
@@ -117,6 +155,17 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '⚽';
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            opacity: 0.1;
+            font-size: 24px;
         }
 
         .stat-card:hover {
@@ -142,6 +191,17 @@
             border-radius: 12px;
             border: 2px solid #e9ecef;
             transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .result::after {
+            content: '🏆';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            opacity: 0.2;
         }
 
         .result.highlight {
@@ -183,71 +243,152 @@
         .toast.show {
             opacity: 1;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .side-content {
+                position: static;
+                height: auto;
+                margin-top: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .main-content, .side-content {
+                padding: 20px;
+            }
+
+            .logo {
+                max-width: 150px;
+            }
+
+            .stat-card::before {
+                display: none;
+            }
+        }
+
+        /* Header con logo e pallone */
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .soccer-ball {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .soccer-ball-left {
+            left: 20px;
+            top: 50%;
+        }
+
+        .soccer-ball-right {
+            right: 20px;
+            top: 50%;
+        }
     </style>
 </head>
 <body>
-    <div class="page-layout">
-        <div class="main-content">
-            <h2>⚽ Calcolo Crediti Fantacalcio</h2>
+    <!-- Header principale dell'app -->
+<div class="app-header">
+    <div class="soccer-ball soccer-ball-left">⚽</div>
+    <h1 style="color: white; margin: 0;">Leghe Fantacalcio</h1>
+    <div class="soccer-ball soccer-ball-right">⚽</div>
+</div>
 
-            <div class="input-group">
-                <label for="nomeGiocatore">Nome Giocatore:</label>
-                <input type="text" id="nomeGiocatore" placeholder="Inserisci il nome del giocatore">
-                <div class="error-message">Inserisci il nome del giocatore</div>
-            </div>
-
-            <div class="input-group">
-                <label for="creditiSpesi">Crediti Spesi:</label>
-                <input type="number" id="creditiSpesi" placeholder="Inserisci i crediti spesi" min="1" step="1" onkeydown="return event.keyCode !== 190 && event.keyCode !== 188">
-                <div class="error-message">Inserisci un numero intero positivo</div>
-            </div>
-
-            <div class="input-group">
-                <label for="quotazioneAcquisto">Quotazione Acquisto:</label>
-                <input type="number" id="quotazioneAcquisto" placeholder="Inserisci la quotazione di acquisto" min="1" step="1" onkeydown="return event.keyCode !== 190 && event.keyCode !== 188">
-                <div class="error-message">Inserisci un numero intero positivo</div>
-            </div>
-
-            <div class="input-group">
-                <label for="quotazioneAttuale">Quotazione Attuale:</label>
-                <input type="number" id="quotazioneAttuale" placeholder="Inserisci la quotazione attuale" min="1" step="1" onkeydown="return event.keyCode !== 190 && event.keyCode !== 188">
-                <div class="error-message">Inserisci un numero intero positivo</div>
-            </div>
-
-            <div class="checkbox-group">
-                <label for="estero">Giocatore andato all'estero</label>
-                <input type="checkbox" id="estero">
-            </div>
-
-            <button onclick="calcolaCrediti()">Calcola Crediti</button>
-
-            <div class="result">
-                <h3>Risultato</h3>
-                <p>Crediti Recuperati: <span id="risultato">-</span></p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="giocatoriSvincolati">0</div>
-                    <div class="stat-label">Giocatori Svincolati</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="creditiTotali">0</div>
-                    <div class="stat-label">Crediti Totali Guadagnati</div>
-                </div>
-            </div>
+<!-- Layout principale -->
+<div class="page-layout">
+    <!-- Contenuto principale (form) -->
+    <div class="main-content">
+        <h2>⚽ Calcolo Crediti</h2>
+        
+        <!-- Campi input -->
+        <div class="input-group">
+            <label for="nomeGiocatore">Nome Giocatore:</label>
+            <input type="text" id="nomeGiocatore" placeholder="Inserisci il nome del giocatore">
+            <div class="error-message">Inserisci il nome del giocatore</div>
         </div>
 
-        <div class="side-content">
-            <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;">Cronologia Calcoli</h3>
-                <button class="clear-btn" onclick="clearAllHistory()">Pulisci tutto</button>
+        <div class="input-group">
+            <label for="creditiSpesi">Crediti Spesi:</label>
+            <input type="number" id="creditiSpesi" placeholder="Inserisci i crediti spesi" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+        </div>
+
+        <div class="input-group">
+            <label for="quotazioneAcquisto">Quotazione Acquisto:</label>
+            <input type="number" id="quotazioneAcquisto" placeholder="Inserisci la quotazione di acquisto" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+        </div>
+
+        <div class="input-group">
+            <label for="quotazioneAttuale">Quotazione Attuale:</label>
+            <input type="number" id="quotazioneAttuale" placeholder="Inserisci la quotazione attuale" min="1">
+            <div class="error-message">Inserisci un valore valido maggiore di 0</div>
+        </div>
+
+        <div class="checkbox-group">
+            <label for="estero">Giocatore andato all'estero</label>
+            <input type="checkbox" id="estero">
+        </div>
+
+        <button onclick="calcolaCrediti()">Calcola Crediti</button>
+
+        <!-- Risultato -->
+        <div class="result">
+            <h3>Risultato</h3>
+            <p>Crediti Recuperati: <span id="risultato">-</span></p>
+        </div>
+
+        <!-- Statistiche -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="giocatoriSvincolati">0</div>
+                <div class="stat-label">Giocatori Svincolati</div>
             </div>
-            <div id="history"></div>
+            <div class="stat-card">
+                <div class="stat-value" id="creditiTotali">0</div>
+                <div class="stat-label">Crediti Totali Guadagnati</div>
+            </div>
         </div>
     </div>
 
-    <div id="toast" class="toast"></div>
+    <!-- Barra laterale (cronologia) -->
+    <div class="side-content">
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0;">Cronologia Calcoli</h3>
+            <button class="clear-btn" onclick="clearAllHistory()">Pulisci tutto</button>
+        </div>
+        <div id="history"></div>
+    </div>
+</div>
+
+<!-- Toast per i messaggi -->
+<div id="toast" class="toast"></div>
 
     <script>
         let calculationHistory = [];
