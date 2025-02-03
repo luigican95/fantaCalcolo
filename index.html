@@ -310,6 +310,31 @@
             right: 20px;
             top: 50%;
         }
+        .history-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .edit-btn, .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+        .edit-btn {
+            color: #28a745;
+        }
+        .delete-btn {
+            color: #dc3545;
+        }
+        .edit-btn:hover {
+            color: #218838;
+        }
+        .delete-btn:hover {
+            color: #bd2130;
+        }
     </style>
 </head>
 <body>
@@ -524,12 +549,46 @@
                             ${calc.estero ? '🌍' : ''}
                         </div>
                     </div>
-                    <div class="recupero-info">
-                        +${calc.recupero} cr.
+                    <div class="history-item-actions">
+                        <div class="recupero-info">
+                            +${calc.recupero} cr.
+                        </div>
+                        <button class="edit-btn" onclick="editHistoryItem(${index})">✏️</button>
+                        <button class="delete-btn" onclick="deleteHistoryItem(${index})">🗑️</button>
                     </div>
                 `;
                 historyDiv.appendChild(div);
             });
+        }
+        function editHistoryItem(index) {
+            const calc = calculationHistory[index];
+            
+            // Populate input fields
+            document.getElementById('nomeGiocatore').value = calc.nome;
+            document.getElementById('creditiSpesi').value = calc.creditiSpesi;
+            document.getElementById('quotazioneAcquisto').value = calc.quotazioneAcquisto;
+            document.getElementById('quotazioneAttuale').value = calc.quotazioneAttuale;
+            document.getElementById('estero').checked = calc.estero;
+
+            // Set editing index
+            editingIndex = index;
+
+            // Optional: Scroll to the top of the form
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            showToast('Modifica il calcolo corrente');
+        }
+
+        function deleteHistoryItem(index) {
+            if (confirm('Sei sicuro di voler eliminare questo calcolo?')) {
+                calculationHistory.splice(index, 1);
+                updateHistoryDisplay();
+                updateStats();
+                showToast('Calcolo eliminato');
+            }
         }
 
         function clearAllHistory() {
@@ -542,7 +601,7 @@
         }
 
         // Input validation for integers only
-        const numberInputs = document.querySelectorAll('input[type="number"]');
+         const numberInputs = document.querySelectorAll('input[type="number"]');
         numberInputs.forEach(input => {
             input.addEventListener('keydown', function(e) {
                 if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
